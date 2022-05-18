@@ -6,7 +6,7 @@ import { v4 as uuid } from "uuid";
 export const handler = async (event: APIGatewayProxyEvent) => {
   try {
     const body = JSON.parse(event.body);
-    const tableName = process.env.reminderTable;
+    const tableName = process.env.myTable;
 
     const data = {
       ...body,

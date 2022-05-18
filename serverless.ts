@@ -18,7 +18,17 @@ const serverlessConfiguration: AWS = {
     environment: {
       AWS_NODEJS_CONNECTION_REUSE_ENABLED: "1",
       NODE_OPTIONS: "--enable-source-maps --stack-trace-limit=1000",
+      myTable: "${self:custom.myTable}",
     },
+    iamRoleStatements: [
+      {
+        Effect: "Allow",
+        Action: "dynamodb:*",
+        Resource: [
+          "arn:aws:dynamodb:${self:provider.region}:${aws:accountId}:table/${self:custom.myTable}",
+        ],
+      },
+    ],
   },
   // import the function via paths
   functions,
