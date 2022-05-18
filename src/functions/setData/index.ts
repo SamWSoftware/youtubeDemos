@@ -7,32 +7,16 @@ export const handler = async (event: APIGatewayProxyEvent) => {
   try {
     const body = JSON.parse(event.body);
     const tableName = process.env.reminderTable;
-    const { email, phoneNumber, reminder, reminderDate } = body;
-
-    const validationErrors = validateInputs({
-      email,
-      phoneNumber,
-      reminder,
-      reminderDate,
-    });
-    if (validationErrors) {
-      return validationErrors;
-    }
-
-    const userId = email || phoneNumber;
 
     const data = {
       ...body,
       id: uuid(),
-      TTL: reminderDate / 1000,
-      pk: userId,
-      sk: reminderDate.toString(),
     };
     await dynamo.write(data, tableName);
 
     return formatJSONResponse({
       data: {
-        message: `reminder is set for ${new Date(reminderDate).toDateString()}`,
+        message: `data is saved`,
         id: data.id,
       },
     });
