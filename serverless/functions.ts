@@ -12,6 +12,19 @@ const functions: AWS["functions"] = {
       },
     ],
   },
+  listToStream: {
+    handler: "src/functions/listenToStream/index.handler",
+    events: [
+      {
+        stream: {
+          type: "dynamodb",
+          arn: {
+            "Fn::GetAtt": ["myTable", "StreamArn"],
+          },
+        },
+      },
+    ],
+  },
 };
 
 export default functions;
